@@ -1,6 +1,6 @@
-import {Schema, model, Types} from 'mongoose';
+import { Schema, model, Types } from 'mongoose';
 import Category from './Category';
-import User from "./User";
+import User from './User';
 
 const ProductSchema = new Schema({
   category: {
@@ -9,8 +9,8 @@ const ProductSchema = new Schema({
     required: true,
     validate: {
       validator: async (value: Types.ObjectId) => Category.findById(value),
-      message: 'Category does not exists !'
-    }
+      message: 'Category does not exists !',
+    },
   },
   salesman: {
     type: Schema.Types.ObjectId,
@@ -18,25 +18,25 @@ const ProductSchema = new Schema({
     required: true,
     validate: {
       validator: async (value: Types.ObjectId) => User.findById(value),
-      message: 'Author does not exists !'
-    }
+      message: 'Author does not exists !',
+    },
   },
   title: {
     type: String,
     required: true,
   },
   description: {
-    type:String,
-    required: true
+    type: String,
+    required: true,
   },
   price: {
     type: Number,
     required: true,
   },
   image: {
-    type:String,
-    required: true
-  }
+    type: String,
+    required: true,
+  },
 });
 
 const Product = model('Product', ProductSchema);

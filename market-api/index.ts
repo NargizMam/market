@@ -2,9 +2,9 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import config from './config';
-import usersRouter from "./routers/users";
-import productsRouter from "./routers/products";
-import categoriesRouters from "./routers/categories";
+import usersRouter from './routers/users';
+import productsRouter from './routers/products';
+import categoriesRouters from './routers/categories';
 
 const app = express();
 const port = 8000;

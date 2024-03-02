@@ -17,7 +17,7 @@ const ProductItem: React.FC<Props> = ({title, price, id, image}) => {
     const navigate = useNavigate();
     const user = useAppSelector(selectUser);
 
-    if(image){
+    if (image) {
         image = apiURL + '/' + image;
     }
     const getProductInfo = () => {

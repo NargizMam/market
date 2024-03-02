@@ -28,7 +28,13 @@ export const ProductsInfo = () => {
         }
     }, [dispatch, id, user]);
     const deleteProduct = () => {
-        // dispatch(deleteProduct(productsInfo.id));
+        if (id && user) {
+            const infoForFetch = {
+                id: id,
+                token: user.token
+            }
+            dispatch(deleteProduct(infoForFetch));
+        }
     };
 
     if (productsInfo) {

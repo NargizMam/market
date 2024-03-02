@@ -10,11 +10,11 @@ usersRouter.post('/', async (req, res, next) => {
       username: req.body.username,
       password: req.body.password,
       displayName: req.body.displayName,
-      phoneNumber: req.body.phoneNumber
+      phoneNumber: req.body.phoneNumber,
     });
     user.generateToken();
     await user.save();
-    return res.send({message: 'User is register!', user});
+    return res.send({ message: 'User is register!', user });
   } catch (e) {
     if (e instanceof mongoose.Error.ValidationError) {
       return res.status(422).send(e);
@@ -42,26 +42,25 @@ usersRouter.post('/sessions', async (req, res, next) => {
 });
 
 usersRouter.delete('/sessions', async (req, res, next) => {
-  try{
+  try {
     const headerValue = req.get('Authorization');
-    const successMessage = {message: 'Success!'};
-    if(!headerValue){
-      return res.status(401).send({error: 'No authorization header present!'});
+    const successMessage = { message: 'Success!' };
+    if (!headerValue) {
+      return res.status(401).send({ error: 'No authorization header present!' });
     }
     const [_bearer, token] = headerValue.split(' ');
-    if(!token){
+    if (!token) {
       return res.send(successMessage);
     }
-    const user = await User.findOne({token});
-    if(!user){
+    const user = await User.findOne({ token });
+    if (!user) {
       return res.send(successMessage);
     }
     user.generateToken();
     await user.save();
 
     return res.send(successMessage);
-  }
-  catch (e) {
+  } catch (e) {
     return next(e);
   }
 });

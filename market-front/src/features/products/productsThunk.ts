@@ -39,3 +39,11 @@ export const createProduct = createAsyncThunk<null, InfoProps>(
         return axiosApi.post('/products', formData, {headers: {Authorization: `_bearer ${token}`}});
     }
 );
+export const deleteProduct = createAsyncThunk<void,InfoForFetch >(
+    'products/delete',
+    async ({id, token}) => {
+
+        const response = await axiosApi.delete(`/products/${id}`, {headers: {Authorization: `_bearer ${token}`}});
+        return response.data;
+    }
+);

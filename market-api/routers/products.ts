@@ -1,17 +1,17 @@
-import {Router} from 'express';
+import { Router } from 'express';
 import mongoose from 'mongoose';
-import {ApiProduct, ProductMutation} from '../types';
-import {imagesUpload} from '../multer';
+import { ApiProduct, ProductMutation } from '../types';
+import { imagesUpload } from '../multer';
 import Product from '../models/Product';
-import auth, {RequestWithUser} from "../middleware/auth";
-import User from "../models/User";
+import auth, { RequestWithUser } from '../middleware/auth';
+import User from '../models/User';
 
 const productsRouter = Router();
 
 productsRouter.get('/', async (req, res, next) => {
   try {
-    if(req.query.category){
-      const categoriesProducts = await Product.find({'category': req.query.category}).populate('category', 'title');
+    if (req.query.category) {
+      const categoriesProducts = await Product.find({ category: req.query.category }).populate('category', 'title');
       return res.send(categoriesProducts);
     }
     const results = await Product.find();
@@ -24,9 +24,9 @@ productsRouter.get('/:id', auth, async (req: RequestWithUser, res) => {
   let userInfo;
   try {
     const productResult = await Product.findById(req.params.id).populate('category', 'title');
-    if(productResult) {
-      userInfo = await User.findOne({_id: productResult.salesman}, 'displayName phoneNumber');
-      if(userInfo ){
+    if (productResult) {
+      userInfo = await User.findOne({ _id: productResult.salesman }, 'displayName phoneNumber');
+      if (userInfo) {
         const productInfo: ApiProduct = {
           title: productResult.title,
           description: productResult.description,
@@ -35,13 +35,11 @@ productsRouter.get('/:id', auth, async (req: RequestWithUser, res) => {
           category: productResult.title,
           user: {
             displayName: userInfo.displayName,
-            phoneNumber: userInfo.phoneNumber
-          }
-        }
+            phoneNumber: userInfo.phoneNumber,
+          },
+        };
         return res.send(productInfo);
-
       }
-
     }
     if (!productResult || !userInfo) {
       return res.sendStatus(404);
@@ -51,8 +49,7 @@ productsRouter.get('/:id', auth, async (req: RequestWithUser, res) => {
   }
 });
 
-
-productsRouter.post('/', auth,  imagesUpload.single('image'), async (req: RequestWithUser, res, next) => {
+productsRouter.post('/', auth, imagesUpload.single('image'), async (req: RequestWithUser, res, next) => {
   const id = req.user?.id;
   try {
     const productData: ProductMutation = {

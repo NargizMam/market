@@ -7,7 +7,7 @@ import {createProduct} from "./productsThunk.ts";
 import {selectUser} from "../users/usersSlice.ts";
 import {useNavigate} from "react-router-dom";
 import {selectProductCreating} from "./productsSlice.ts";
-import { LoadingButton } from '@mui/lab';
+import {LoadingButton} from '@mui/lab';
 import {selectCategories} from "../categories/categoriesSlice.ts";
 import {fetchCategories} from "../categories/categoriesThunk.ts";
 
@@ -30,21 +30,21 @@ const ProductForm = () => {
 
     useEffect(() => {
         dispatch(fetchCategories());
-        if(!user){
+        if (!user) {
             navigate('/');
         }
     }, [dispatch, navigate, user]);
 
     const submitFormHandler = async (e: React.FormEvent) => {
         e.preventDefault();
-        if(user){
-        const infoProps = {
-            token: user.token,
-            newProduct: state
-        }
-        await dispatch(createProduct(infoProps)).unwrap();
-        setState(initialState);
-        navigate('/');
+        if (user) {
+            const infoProps = {
+                token: user.token,
+                newProduct: state
+            }
+            await dispatch(createProduct(infoProps)).unwrap();
+            setState(initialState);
+            navigate('/');
         }
     };
 
@@ -64,9 +64,8 @@ const ProductForm = () => {
             }));
         }
     };
-    //валидация
     const isFormValid = () => {
-        return (state.image !== null || state.description !== '' || state.price !== '' || state.title !== '' || state.category !== '');
+        return (state.image !== null || state.description !== '' || parseInt(state.price) <= 0 || state.title !== '' || state.category !== '');
 
     };
     return (
@@ -75,7 +74,7 @@ const ProductForm = () => {
                 autoComplete="off"
                 onSubmit={submitFormHandler}
             >
-                {!isFormValid() ? (<Alert sx={{mb:2}}>Все поля обязательны к заполнению</Alert>) : null}
+                {!isFormValid() ? (<Alert sx={{mb: 2}}>Все поля обязательны к заполнению</Alert>) : null}
                 <Grid container direction="column" spacing={3}>
                     <Grid item xs>
                         <TextField
