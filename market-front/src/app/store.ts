@@ -5,6 +5,7 @@ import {FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE} from 'redux-persist/e
 import persistStore from 'redux-persist/es/persistStore';
 import {usersReducer} from "../features/users/usersSlice.ts";
 import {productsReducer} from "../features/products/productsSlice.ts";
+import {categoriesReducer} from "../features/categories/categoriesSlice.ts";
 
 const usersPersistConfig = {
   key: 'shop:users',
@@ -15,6 +16,7 @@ const usersPersistConfig = {
 const rootReducer = combineReducers({
   users: persistReducer(usersPersistConfig, usersReducer),
   products: productsReducer,
+  categories: categoriesReducer,
 });
 export const store = configureStore({
   reducer: rootReducer,

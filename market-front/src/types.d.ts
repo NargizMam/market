@@ -55,3 +55,7 @@ export interface InfoProps {
   newProduct: ProductMutation
   token: string;
 }
+export interface CategoryApi{
+  _id: string;
+  title: string;
+}

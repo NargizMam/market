@@ -3,23 +3,29 @@ import Paper from '@mui/material/Paper';
 import List from '@mui/material/List';
 import ListSubheader from '@mui/material/ListSubheader';
 import {NavLink, useNavigate} from "react-router-dom";
-import {CATEGORIES as categories} from './../constants.ts'
+import {selectCategories, selectCategoriesFetching} from '../features/categories/categoriesSlice.ts';
+import {useAppDispatch, useAppSelector} from "../app/hooks.ts";
+import Spinner from './Spinner/Spinner.tsx';
+import {useEffect} from "react";
+import {fetchCategories} from "../features/categories/categoriesThunk.ts";
 
 const BottomAppBar = () => {
-    // const dispatch = useAppDispatch();
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    // const categoriesFetching = useAppSelector(selectCategoriesFetching);
+    const categories = useAppSelector(selectCategories);
+    const categoriesFetching = useAppSelector(selectCategoriesFetching);
+    console.log(categories)
+    useEffect(() => {
+        dispatch(fetchCategories());
+    }, [dispatch]);
 
-    // useEffect(() => {
-    //     dispatch(fetchCategories());
-    // }, [dispatch])
     const showCategoriesProduct = (id: string) =>{
         navigate('/products/'+ id);
     };
 
     return (
         <>
-            {/*{categoriesFetching ? <Spinner/> : null}*/}
+            {categoriesFetching ? <Spinner/> : null}
             <Paper  sx={{ pb: '50px' }}>
                 <List sx={{ mb: 2 }}>
                     <ListSubheader sx={{ bgcolor: 'background.paper' }}
@@ -28,12 +34,12 @@ const BottomAppBar = () => {
                     >All items
                     </ListSubheader>
                     {categories.map(category => (
-                        <React.Fragment key={category}>
+                        <React.Fragment key={category._id}>
                             <ListSubheader
                                 sx={{ bgcolor: 'background.paper', textDecoration: "underline" }}
-                                onClick={()=> showCategoriesProduct(category)}
+                                onClick={()=> showCategoriesProduct(category._id)}
                             >
-                                {category.toUpperCase()}
+                                {category.title.toUpperCase()}
                             </ListSubheader>
                         </React.Fragment>
                     ))}
