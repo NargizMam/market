@@ -31,7 +31,7 @@ const BottomAppBar = () => {
                         <nav aria-label="secondary mailbox folders">
                             {categories.map(category => (
                                 <ListItem disablePadding key={category._id}>
-                                    <ListItemButton component={NavLink} to={`/products/${category._id}`}>
+                                    <ListItemButton component={NavLink} to={`/categories/${category._id}`}>
                                         <ListItemText primary={category.title.toUpperCase()} />
                                     </ListItemButton>
                                 </ListItem>

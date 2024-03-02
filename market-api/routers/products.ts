@@ -1,14 +1,14 @@
 import {Router} from 'express';
 import mongoose, {Types} from 'mongoose';
-import {ProductMutation} from '../types';
+import {ApiProduct, ProductMutation} from '../types';
 import {imagesUpload} from '../multer';
 import Product from '../models/Product';
 import auth, {RequestWithUser} from "../middleware/auth";
+import User from "../models/User";
 
 const productsRouter = Router();
 
 productsRouter.get('/', async (req, res, next) => {
-  console.log(req.query.category)
   try {
     if(req.query.category){
       const categoriesProducts = await Product.find({'category': req.query.category}).populate('category', 'title');
@@ -20,27 +20,38 @@ productsRouter.get('/', async (req, res, next) => {
     return next(e);
   }
 });
-
-productsRouter.get('/:id', async (req, res, next) => {
+productsRouter.get('/:id', auth,async (req: RequestWithUser, res) => {
+  const user = req.user?._id;
+  let userInfo;
   try {
-    let _id: Types.ObjectId;
-    try {
-      _id = new Types.ObjectId(req.params.id);
-    } catch {
-      return res.status(404).send({error: 'Wrong ObjectId!'});
+    const productResult = await Product.findById(req.params.id).populate('category', 'title');
+    if(productResult) {
+      userInfo = await User.findOne({displayName: productResult.salesman}, 'displayName phone');
+      if(userInfo && userInfo._id === user){
+        const productInfo: ApiProduct = {
+          title: productResult.title,
+          description: productResult.description,
+          image: productResult.image,
+          price: productResult.price,
+          category: productResult.title,
+          user: {
+            displayName: userInfo.displayName,
+            phone: userInfo.phoneNumber
+          }
+        }
+        return res.send(productResult);
+
+      }
+
     }
-
-    const product = await Product.findById(_id);
-
-    if (!product) {
-      return res.status(404).send({error: 'Not found!'});
+    if (!productResult || !userInfo) {
+      return res.sendStatus(404);
     }
-
-    res.send(product);
-  } catch (e) {
-    next(e);
+  } catch {
+    return res.sendStatus(500);
   }
 });
+
 
 productsRouter.post('/', auth,  imagesUpload.single('image'), async (req: RequestWithUser, res, next) => {
   const displayName = req.user?.displayName;

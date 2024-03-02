@@ -13,6 +13,17 @@ export const fetchProductsList = createAsyncThunk<Product[], string|null>(
         return response.data;
     }
 );
+export const fetchOneProduct= createAsyncThunk<Product, string>(
+    'products/fetchOne',
+    async (id) => {
+        const response = await axiosApi.get('/products/' + id);
+        const productsInfo = response.data;
+        if (productsInfo === null) {
+            throw  new Error('Not found');
+        }
+        return productsInfo;
+    }
+);
 export const createProduct = createAsyncThunk<null, InfoProps>(
     'products/create',
     async ({token, newProduct}) => {

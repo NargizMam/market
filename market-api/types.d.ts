@@ -20,3 +20,14 @@ export interface ProductMutation {
   image: string | null;
   salesman: string;
 }
+export interface ApiProduct {
+  category: string;
+  title: string;
+  price: number;
+  description: string;
+  image: string | null;
+  user: {
+    displayName: string;
+    phone: string;
+  }
+}
