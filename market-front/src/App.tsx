@@ -5,7 +5,7 @@ import Register from "./features/users/Register.tsx";
 import Login from "./features/users/Login.tsx";
 import ProductForm from './features/products/ProductForm.tsx';
 import ProductsList from "./features/products/ProductsList.tsx";
-import ProductItem from "./features/products/components/ProductItem.tsx";
+import ProductsInfo from "./features/products/ProductsInfo.tsx";
 
 function App() {
 
@@ -18,9 +18,10 @@ function App() {
       <main>
         <Container maxWidth="xl" >
           <Routes>
-              <Route path="/" element={<ProductsList />} />
-              <Route path="/products/:id"  element={<ProductItem/>}/>
-              <Route path="/categories/:id"  element={<ProductsList/>}/>
+              <Route path="/" element={<ProductsList />}>
+                  <Route path=":id"  element={<ProductsList/>}/>
+              </Route>
+              <Route path="/products/:id"  element={<ProductsInfo/>}/>
               <Route path="/" element={<ProductsList />} />
               <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login/>} />

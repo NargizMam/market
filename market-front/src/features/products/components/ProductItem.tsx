@@ -11,10 +11,9 @@ interface Props {
     price: number;
     id: string;
     image: string;
-    salesman: string;
 }
 
-const ProductItem: React.FC<Props> = ({title, price, id, image, salesman}) => {
+const ProductItem: React.FC<Props> = ({title, price, id, image}) => {
     const navigate = useNavigate();
     const user = useAppSelector(selectUser);
 
@@ -37,9 +36,6 @@ const ProductItem: React.FC<Props> = ({title, price, id, image, salesman}) => {
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                     {price} сом
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                    {salesman}
                 </Typography>
             </CardContent>
             {user ?

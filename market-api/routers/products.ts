@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import mongoose, {Types} from 'mongoose';
+import mongoose from 'mongoose';
 import {ApiProduct, ProductMutation} from '../types';
 import {imagesUpload} from '../multer';
 import Product from '../models/Product';
@@ -20,14 +20,14 @@ productsRouter.get('/', async (req, res, next) => {
     return next(e);
   }
 });
-productsRouter.get('/:id', auth,async (req: RequestWithUser, res) => {
+productsRouter.get('/:id', auth, async (req: RequestWithUser, res) => {
   const user = req.user?._id;
   let userInfo;
   try {
     const productResult = await Product.findById(req.params.id).populate('category', 'title');
     if(productResult) {
-      userInfo = await User.findOne({displayName: productResult.salesman}, 'displayName phone');
-      if(userInfo && userInfo._id === user){
+      userInfo = await User.findOne({_id: productResult.salesman}, 'displayName phone');
+      if(userInfo ){
         const productInfo: ApiProduct = {
           title: productResult.title,
           description: productResult.description,
@@ -39,7 +39,7 @@ productsRouter.get('/:id', auth,async (req: RequestWithUser, res) => {
             phone: userInfo.phoneNumber
           }
         }
-        return res.send(productResult);
+        return res.send(productInfo);
 
       }
 

@@ -8,6 +8,7 @@ import {selectUser} from "../users/usersSlice.ts";
 import {useNavigate} from "react-router-dom";
 import {selectProductCreating} from "./productsSlice.ts";
 import { LoadingButton } from '@mui/lab';
+import {selectCategories} from "../categories/categoriesSlice.ts";
 
 const initialState = {
     category: '',
@@ -23,16 +24,15 @@ const ProductForm = () => {
     const user = useAppSelector(selectUser);
     const navigate = useNavigate();
     const creating = useAppSelector(selectProductCreating);
+    const categories = useAppSelector(selectCategories);
+
+    const [state, setState] = useState<ProductMutation>(initialState);
 
     useEffect(() => {
         if(!user){
             navigate('/');
         }
     }, [navigate,user]);
-
-    const [state, setState] = useState<ProductMutation>(initialState);
-
-
 
     const submitFormHandler = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -89,11 +89,11 @@ const ProductForm = () => {
                         >
                             <MenuItem value="" disabled>Please select a category</MenuItem>
                             {categories.map(category => (
-                                <MenuItem key={category}
-                                          title={category}
-                                          value={category}
+                                <MenuItem key={category._id}
+                                          title={category.title}
+                                          value={category.title}
                                 >
-                                    {category}
+                                    {category.title}
                                 </MenuItem>
                             ))}
                         </TextField>

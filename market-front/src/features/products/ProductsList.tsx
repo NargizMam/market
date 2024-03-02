@@ -6,12 +6,14 @@ import ProductItem from "./components/ProductItem.tsx";
 import Spinner from "../../components/Spinner/Spinner.tsx";
 import {useEffect} from "react";
 import {fetchProductsList} from "./productsThunk.ts";
-import {useParams} from "react-router-dom";
+import {useLocation, useParams} from "react-router-dom";
 
 const ProductsList = () => {
     const dispatch = useAppDispatch();
     const products = useAppSelector(selectProducts);
     const fetchLoading = useAppSelector(selectProductsLoading);
+    const location = useLocation();
+    console.log(location)
     const {id} = useParams();
     let allProducts;
 
@@ -37,7 +39,6 @@ const ProductsList = () => {
                 price={product.price}
                 id={product._id}
                 image={product.image}
-                salesman={product.salesman}
             />
         ))}
 

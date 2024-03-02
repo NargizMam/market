@@ -1,4 +1,4 @@
-import {InfoProps, Product, ProductMutation} from "../../types";
+import {InfoForFetch, InfoProps, Product, ProductMutation} from "../../types";
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import axiosApi from "../../axiosApi.ts";
 
@@ -6,17 +6,17 @@ export const fetchProductsList = createAsyncThunk<Product[], string|null>(
     'products/fetchAll',
     async (categoryId) => {
         if(categoryId){
-            const responseCP = await axiosApi.get<Product[]>(`/products?category=${categoryId}`);
+            const responseCP = await axiosApi.get<Product[]>(`/?category=${categoryId}`);
             return responseCP.data;
         }
         const response = await axiosApi.get<Product[]>('/products');
         return response.data;
     }
 );
-export const fetchOneProduct= createAsyncThunk<Product, string>(
+export const fetchOneProduct= createAsyncThunk<Product, InfoForFetch>(
     'products/fetchOne',
-    async (id) => {
-        const response = await axiosApi.get('/products/' + id);
+    async ({id, token}) => {
+        const response = await axiosApi.get('/products/' + id, {headers: {Authorization: `_bearer ${token}`}});
         const productsInfo = response.data;
         if (productsInfo === null) {
             throw  new Error('Not found');

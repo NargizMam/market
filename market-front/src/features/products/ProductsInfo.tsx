@@ -1,10 +1,12 @@
-import React, {useEffect} from 'react';
+import {useEffect} from 'react';
 import {useParams} from 'react-router-dom';
 import {Box, Card, CardContent, CardMedia, Grid, Typography} from '@mui/material';
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {apiURL} from "../../constants";
-import {selectUser} from "../users/usersSlice";
 import {selectOneProduct, selectOneProductsLoading} from "./productsSlice";
+import {fetchOneProduct} from "./productsThunk.ts";
+import Spinner from "../../components/Spinner/Spinner.tsx";
+import {selectUser} from "../users/usersSlice.ts";
 
 export const ProductsInfo = () => {
     const dispatch = useAppDispatch();
@@ -13,41 +15,52 @@ export const ProductsInfo = () => {
     const productsInfoLoading = useAppSelector(selectOneProductsLoading);
     const user = useAppSelector(selectUser);
 
-
-    if (productsInfo?.image) {
-        productsInfo.image = apiURL + '/' + productsInfo.image;
-    }
+    let cardImage;
+    let allProductInfo;
 
     useEffect(() => {
-        if (id) {
-            dispatch(fetchOneProduct(id));
+        if (id && user) {
+            const infoForFetch ={
+                id: id,
+                token: user.token
+            }
+            dispatch(fetchOneProduct(infoForFetch));
         }
-    }, [dispatch, id]);
+    }, [dispatch, id, user]);
+
+    if (productsInfo) {
+        cardImage = apiURL + '/' + productsInfo.image;
+        allProductInfo = (
+            <Grid sx={{display: 'flex', justifyContent: 'space-between'}}>
+                <Card sx={{display: 'flex', width: '80%'}}>
+                    <Box sx={{display: 'flex'}}>
+                        <CardMedia
+                            component="img"
+                            sx={{width: 151}}
+                            src={cardImage} alt={productsInfo.title}/>
+                        <CardContent sx={{flex: '1 0 auto'}}>
+                            <Typography component="div" variant="h5">
+                                {productsInfo?.title}
+                            </Typography>
+                            <Typography variant="subtitle1" color="text.secondary" component="div">
+                                {productsInfo?.price}
+                            </Typography>
+                            <Typography variant="body2">{productsInfo.title}</Typography>
+                            <Typography variant="body2">{productsInfo.user.displayName}</Typography>
+                            <Typography variant="body2">{productsInfo.description}</Typography>
+                            <Typography variant="body2">{productsInfo.category.title}</Typography>
+                        </CardContent>
+                    </Box>
+                </Card>
+            </Grid>)
+    }
 
     return (
         <>
-            {productsInfoLoading ? <Spinner/> : (
-                <Grid sx={{display: 'flex', justifyContent: 'space-between'}}>
-                    <Card sx={{display: 'flex', width: 800}}>
-                        <Box sx={{display: 'flex'}}>
-                            <CardMedia
-                                component="img"
-                                sx={{width: 151}}
-                                src={productsInfo?.image} alt={productsInfo?.title}/>
-                            <CardContent sx={{flex: '1 0 auto'}}>
-                                <Typography component="div" variant="h5">
-                                    {productsInfo?.title}
-                                </Typography>
-                                <Typography variant="subtitle1" color="text.secondary" component="div">
-                                    {productsInfo?.price}
-                                </Typography>
-                                <Typography variant="body2">{productsInfo?.description}</Typography>
-                                {/*<Typography variant="body2">{productsInfo?.user.displayName}</Typography>*/}
-                                <Typography variant="body2">{productsInfo?.description}</Typography>
-                            </CardContent>
-                        </Box>
-                    </Card>
-                </Grid>)}
+            {productsInfoLoading && <Spinner/>}
+                <Grid item sm md={6} lg={4}>
+                    {allProductInfo}
+                </Grid>
 
         </>
     );

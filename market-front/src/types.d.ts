@@ -34,6 +34,10 @@ export interface RegisterResponse {
 export interface GlobalError {
   error: string
 }
+export interface Salesman {
+  id: string;
+  displayName: string
+}
 export interface Product {
   _id: string;
   title: string;
@@ -41,7 +45,7 @@ export interface Product {
   price: number;
   image: string ;
   category: Category;
-  salesman: string;
+  user: Salesman;
 }
 export interface ProductMutation {
   title: string;
@@ -53,6 +57,10 @@ export interface ProductMutation {
 }
 export interface InfoProps {
   newProduct: ProductMutation
+  token: string;
+}
+export interface InfoForFetch {
+  id: string;
   token: string;
 }
 export interface CategoryApi{
