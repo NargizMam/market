@@ -7,10 +7,15 @@ import auth, {RequestWithUser} from "../middleware/auth";
 
 const productsRouter = Router();
 
-productsRouter.get('/', async (_req, res, next) => {
+productsRouter.get('/', async (req, res, next) => {
+  console.log(req.query.category)
   try {
+    if(req.query.category){
+      const categoriesProducts = await Product.find({'category': req.query.category}).populate('category', 'title');
+      return res.send(categoriesProducts);
+    }
     const results = await Product.find();
-    res.send(results);
+    return res.send(results);
   } catch (e) {
     return next(e);
   }

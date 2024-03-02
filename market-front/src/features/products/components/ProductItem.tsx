@@ -25,7 +25,7 @@ const ProductItem: React.FC<Props> = ({title, price, id, image, salesman}) => {
         navigate('/products/' + id);
     };
     return (
-        <Card sx={{width: 170, margin: 3}} onClick={getProductInfo}>
+        <Card sx={{width: 300, margin: 3}} onClick={getProductInfo}>
             <CardMedia
                 sx={{height: 140}}
                 image={image}

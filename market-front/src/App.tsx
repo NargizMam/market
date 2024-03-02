@@ -17,8 +17,10 @@ function App() {
       <main>
         <Container maxWidth="xl" >
           <Routes>
-            <Route path="/register" element={<Register />} />
-            <Route path="/" element={<ProductsList />} />
+              <Route path="/" element={<ProductsList />} />
+              <Route path="/products/:id"  element={<ProductsList/>}/>
+              <Route path="/" element={<ProductsList />} />
+              <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login/>} />
             <Route path="/new-product" element={<ProductForm/>} />
             <Route path="*" element={<h1>Not found</h1>} />

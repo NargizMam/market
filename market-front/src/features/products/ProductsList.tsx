@@ -13,11 +13,33 @@ const ProductsList = () => {
     const products = useAppSelector(selectProducts);
     const fetchLoading = useAppSelector(selectProductsLoading);
     const {id} = useParams();
+    let allProducts;
 
     useEffect(() => {
-        dispatch(fetchProductsList());
+        dispatch(fetchProductsList(null));
     }, [dispatch]);
 
+    useEffect(() => {
+        if(id){
+            dispatch(fetchProductsList(id));
+        }
+    }, [dispatch, id]);
+
+    if(products.length === 0) {
+        allProducts = (
+            <h4>В данную категорию товары еще не добавлены</h4>
+        )
+    }else{
+        allProducts = products.map(product => (
+            <ProductItem
+                key={product._id}
+                title={product.title}
+                price={product.price}
+                id={product._id}
+                image={product.image}
+                salesman={product.salesman}
+            />
+        ))}
 
     return (
         <Grid container  direction="row">
@@ -33,17 +55,9 @@ const ProductsList = () => {
             <Grid item xs={8}>
                 <Typography variant="h6">Все товары</Typography>
                 {fetchLoading && <Spinner/>}
+
                 <Grid item container spacing={2}>
-                    {products.map(product => (
-                        <ProductItem
-                            key={product._id}
-                            title={product.title}
-                            price={product.price}
-                            id={product._id}
-                            image={product.image}
-                            salesman={product.salesman}
-                        />
-                    ))}
+                    {allProducts}
                 </Grid>
             </Grid>
         </Grid>
