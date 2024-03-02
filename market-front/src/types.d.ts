@@ -54,7 +54,6 @@ export interface ProductMutation {
   description: string;
   image: string | null;
   price: string;
-  salesman: string;
 }
 export interface InfoProps {
   newProduct: ProductMutation

@@ -9,13 +9,13 @@ import {useNavigate} from "react-router-dom";
 import {selectProductCreating} from "./productsSlice.ts";
 import { LoadingButton } from '@mui/lab';
 import {selectCategories} from "../categories/categoriesSlice.ts";
+import {fetchCategories} from "../categories/categoriesThunk.ts";
 
 const initialState = {
     category: '',
     title: '',
     price: '',
     description: '',
-    salesman: '',
     image: null,
 }
 
@@ -29,16 +29,15 @@ const ProductForm = () => {
     const [state, setState] = useState<ProductMutation>(initialState);
 
     useEffect(() => {
+        dispatch(fetchCategories());
         if(!user){
             navigate('/');
         }
-    }, [navigate,user]);
+    }, [dispatch, navigate, user]);
 
     const submitFormHandler = async (e: React.FormEvent) => {
         e.preventDefault();
         if(user){
-            setState({...state, salesman: user.displayName});
-
         const infoProps = {
             token: user.token,
             newProduct: state
@@ -91,7 +90,7 @@ const ProductForm = () => {
                             {categories.map(category => (
                                 <MenuItem key={category._id}
                                           title={category.title}
-                                          value={category.title}
+                                          value={category._id}
                                 >
                                     {category.title}
                                 </MenuItem>

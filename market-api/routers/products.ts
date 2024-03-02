@@ -53,18 +53,16 @@ productsRouter.get('/:id', auth, async (req: RequestWithUser, res) => {
 
 
 productsRouter.post('/', auth,  imagesUpload.single('image'), async (req: RequestWithUser, res, next) => {
-  const displayName = req.user?.displayName;
-
+  const id = req.user?.id;
   try {
     const productData: ProductMutation = {
       category: req.body.category,
       title: req.body.title,
       price: parseFloat(req.body.price),
       description: req.body.description,
-      salesman: displayName!,
+      salesman: id,
       image: req.file ? req.file.filename : null,
     };
-
     const product = new Product(productData);
     await product.save();
 

@@ -32,7 +32,6 @@ export const createProduct = createAsyncThunk<null, InfoProps>(
         const keys = Object.keys(newProduct) as (keyof ProductMutation)[];
         keys.forEach(key => {
             const value = newProduct[key];
-
             if (value !== null) {
                 formData.append(key, value);
             }
