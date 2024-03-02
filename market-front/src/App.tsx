@@ -4,6 +4,7 @@ import {Route, Routes } from 'react-router-dom';
 import Register from "./features/users/Register.tsx";
 import Login from "./features/users/Login.tsx";
 import ProductForm from './features/products/ProductForm.tsx';
+import ProductsList from "./features/products/ProductsList.tsx";
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
         <Container maxWidth="xl" >
           <Routes>
             <Route path="/register" element={<Register />} />
+            <Route path="/" element={<ProductsList />} />
             <Route path="/login" element={<Login/>} />
             <Route path="/new-product" element={<ProductForm/>} />
             <Route path="*" element={<h1>Not found</h1>} />

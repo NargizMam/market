@@ -41,6 +41,7 @@ const FileInput: React.FC<Props> = ({onChange, name, label}) => {
         <Grid item xs>
           <TextField
             disabled
+            required
             label={label}
             value={filename}
             onClick={activateInput}

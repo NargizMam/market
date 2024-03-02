@@ -47,5 +47,10 @@ export interface ProductMutation {
   category: string;
   description: string;
   image: string | null;
-  price: number;
+  price: string;
+  salesman: string;
+}
+export interface InfoProps {
+  newProduct: ProductMutation
+  token: string;
 }
