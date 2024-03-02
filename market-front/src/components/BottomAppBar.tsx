@@ -14,7 +14,7 @@ const BottomAppBar = () => {
     //     dispatch(fetchCategories());
     // }, [dispatch])
     const showCategoriesProduct = (id: string) =>{
-        navigate('/categories/'+ id);
+        navigate('/products/'+ id);
     };
 
     return (
@@ -23,7 +23,7 @@ const BottomAppBar = () => {
             <Paper  sx={{ pb: '50px' }}>
                 <List sx={{ mb: 2 }}>
                     <ListSubheader sx={{ bgcolor: 'background.paper' }}
-                                   component={NavLink} to={'/products'}
+                                   component={NavLink} to={'/'}
 
                     >All items
                     </ListSubheader>

@@ -39,8 +39,9 @@ export interface Product {
   title: string;
   description: string;
   price: number;
-  image: string | null;
+  image: string ;
   category: Category;
+  salesman: string;
 }
 export interface ProductMutation {
   title: string;

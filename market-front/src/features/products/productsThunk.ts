@@ -1,8 +1,14 @@
-import {InfoProps, ProductMutation} from "../../types";
+import {InfoProps, Product, ProductMutation} from "../../types";
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import axiosApi from "../../axiosApi.ts";
 
-
+export const fetchProductsList = createAsyncThunk<Product[]>(
+    'products/fetchAll',
+    async () => {
+        const response = await axiosApi.get<Product[]>('/products');
+        return response.data;
+    }
+);
 export const createProduct = createAsyncThunk<null, InfoProps>(
     'products/create',
     async ({token, newProduct}) => {
