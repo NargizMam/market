@@ -23,7 +23,7 @@ const BottomAppBar = () => {
         const selectedCategory = categories.find(category => title === category.title);
         if(selectedCategory){
             dispatch(fetchProductsList(selectedCategory._id))
-            navigate(`/?category=${selectedCategory.title}`);
+            navigate(`${selectedCategory.title}`);
         }
     };
 

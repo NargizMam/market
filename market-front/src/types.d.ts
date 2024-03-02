@@ -36,7 +36,8 @@ export interface GlobalError {
 }
 export interface Salesman {
   id: string;
-  displayName: string
+  displayName: string;
+  phoneNumber: string;
 }
 export interface Product {
   _id: string;
@@ -44,7 +45,7 @@ export interface Product {
   description: string;
   price: number;
   image: string ;
-  category: Category;
+  category: CategoryApi;
   user: Salesman;
 }
 export interface ProductMutation {

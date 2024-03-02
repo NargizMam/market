@@ -6,7 +6,7 @@ export const fetchProductsList = createAsyncThunk<Product[], string|null>(
     'products/fetchAll',
     async (categoryId) => {
         if(categoryId){
-            const responseCP = await axiosApi.get<Product[]>(`/?category=${categoryId}`);
+            const responseCP = await axiosApi.get<Product[]>(`/products?category=${categoryId}`);
             return responseCP.data;
         }
         const response = await axiosApi.get<Product[]>('/products');

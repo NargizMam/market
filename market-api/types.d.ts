@@ -28,6 +28,6 @@ export interface ApiProduct {
   image: string | null;
   user: {
     displayName: string;
-    phone: string;
+    phoneNumber: string;
   }
 }

@@ -21,12 +21,11 @@ productsRouter.get('/', async (req, res, next) => {
   }
 });
 productsRouter.get('/:id', auth, async (req: RequestWithUser, res) => {
-  const user = req.user?._id;
   let userInfo;
   try {
     const productResult = await Product.findById(req.params.id).populate('category', 'title');
     if(productResult) {
-      userInfo = await User.findOne({_id: productResult.salesman}, 'displayName phone');
+      userInfo = await User.findOne({_id: productResult.salesman}, 'displayName phoneNumber');
       if(userInfo ){
         const productInfo: ApiProduct = {
           title: productResult.title,
@@ -36,7 +35,7 @@ productsRouter.get('/:id', auth, async (req: RequestWithUser, res) => {
           category: productResult.title,
           user: {
             displayName: userInfo.displayName,
-            phone: userInfo.phoneNumber
+            phoneNumber: userInfo.phoneNumber
           }
         }
         return res.send(productInfo);

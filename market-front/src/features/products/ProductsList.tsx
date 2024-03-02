@@ -6,26 +6,25 @@ import ProductItem from "./components/ProductItem.tsx";
 import Spinner from "../../components/Spinner/Spinner.tsx";
 import {useEffect} from "react";
 import {fetchProductsList} from "./productsThunk.ts";
-import {useLocation, useParams} from "react-router-dom";
+import {useLocation} from "react-router-dom";
 
 const ProductsList = () => {
     const dispatch = useAppDispatch();
     const products = useAppSelector(selectProducts);
     const fetchLoading = useAppSelector(selectProductsLoading);
-    const location = useLocation();
-    console.log(location)
-    const {id} = useParams();
+    const {pathname} = useLocation();
+
     let allProducts;
+    let textTitle = 'Все товары';
+
+    if(pathname !== '/'){
+        textTitle = `Категория ${pathname.toUpperCase().replace('/', '')}`
+    }
 
     useEffect(() => {
         dispatch(fetchProductsList(null));
-    }, [dispatch]);
+    }, [dispatch, pathname]);
 
-    useEffect(() => {
-        if(id){
-            dispatch(fetchProductsList(id));
-        }
-    }, [dispatch, id]);
 
     if(products.length === 0) {
         allProducts = (
@@ -54,7 +53,7 @@ const ProductsList = () => {
             </Grid>
 
             <Grid item xs={8}>
-                <Typography variant="h6">Все товары</Typography>
+                <Typography variant="h6">{textTitle}</Typography>
                 {fetchLoading && <Spinner/>}
 
                 <Grid item container spacing={2}>
