@@ -34,3 +34,18 @@ export interface RegisterResponse {
 export interface GlobalError {
   error: string
 }
+export interface Product {
+  _id: string;
+  title: string;
+  description: string;
+  price: number;
+  image: string | null;
+  category: Category;
+}
+export interface ProductMutation {
+  title: string;
+  category: string;
+  description: string;
+  image: string | null;
+  price: number;
+}

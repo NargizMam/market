@@ -1,11 +1,11 @@
 import { Alert, Avatar, Box, Button, Container, Grid, Link, TextField, Typography } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { RegisterMutation } from '../types';
+import { RegisterMutation } from '../../types';
 import React, { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { registerUser } from './usersThunk';
-import { selectRegisterError } from './usersSlice';
-import {useAppDispatch, useAppSelector} from "../app/hooks.ts";
+import { registerUser } from './usersThunk.ts';
+import { selectRegisterError } from './usersSlice.ts';
+import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
 
 
 const Register = () => {
@@ -36,7 +36,7 @@ const Register = () => {
     event.preventDefault();
     try {
       await dispatch(registerUser(state)).unwrap();
-      navigate('/');
+      navigate('/new-product');
     }
     catch (e) {
       console.log(e);

@@ -3,7 +3,7 @@ import {User} from '../../types';
 import {Button, Menu, MenuItem} from '@mui/material';
 import {useAppDispatch} from '../../app/hooks.ts';
 import {NavLink, useNavigate} from "react-router-dom";
-import { logout } from '../../users/usersThunk.ts';
+import { logout } from '../../features/users/usersThunk.ts';
 
 interface Props {
     user: User;

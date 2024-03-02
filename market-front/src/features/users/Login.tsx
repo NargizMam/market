@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Alert, Avatar, Box, Button, Container, Grid, Link, TextField, Typography } from '@mui/material';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import LockOpenIcon from "@mui/icons-material/LockOpen";
-import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { selectLoginError } from './usersSlice';
-import { loginUser } from './usersThunk';
-import {LoginMutation} from "../types";
+import { useAppDispatch, useAppSelector } from '../../app/hooks.ts';
+import { selectLoginError } from './usersSlice.ts';
+import { loginUser } from './usersThunk.ts';
+import {LoginMutation} from "../../types";
 const Login = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ const Login = () => {
   const submitFormHandler = async (event: React.FormEvent) => {
     event.preventDefault();
     await dispatch(loginUser(state)).unwrap();
-    navigate('/');
+    navigate('/new-product');
   };
   return (
     <Container component="main" maxWidth="xs">

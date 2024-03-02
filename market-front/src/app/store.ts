@@ -3,7 +3,8 @@ import storage from 'redux-persist/lib/storage';
 import {persistReducer} from 'redux-persist';
 import {FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE} from 'redux-persist/es/constants';
 import persistStore from 'redux-persist/es/persistStore';
-import {usersReducer} from "../users/usersSlice.ts";
+import {usersReducer} from "../features/users/usersSlice.ts";
+import {productsReducer} from "../features/products/productsSlice.ts";
 
 const usersPersistConfig = {
   key: 'shop:users',
@@ -12,7 +13,8 @@ const usersPersistConfig = {
 
 };
 const rootReducer = combineReducers({
-  users: persistReducer(usersPersistConfig, usersReducer)
+  users: persistReducer(usersPersistConfig, usersReducer),
+  products: productsReducer,
 });
 export const store = configureStore({
   reducer: rootReducer,

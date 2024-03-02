@@ -1,9 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { isAxiosError } from 'axios';
-import { unsetUser } from './usersSlice';
-import axiosApi from '../axiosApi';
-import {RootState} from "../app/store.ts";
-import {GlobalError, LoginMutation, RegisterMutation, RegisterResponse, ValidationError} from "../types";
+import { unsetUser } from './usersSlice.ts';
+import axiosApi from '../../axiosApi.ts';
+import {RootState} from "../../app/store.ts";
+import {GlobalError, LoginMutation, RegisterMutation, RegisterResponse, ValidationError} from "../../types";
 
 export const registerUser = createAsyncThunk<RegisterResponse, RegisterMutation, {rejectValue: ValidationError}>(
   'users/register',
